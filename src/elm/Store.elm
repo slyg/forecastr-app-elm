@@ -22,7 +22,7 @@ update action model =
   case action of
 
     RequestIP ->
-      (model, requestIP "http://jsonip.com")
+      (model, requestIP)
 
     UpdateIP ip ->
       ( { model | ip = (Maybe.withDefault "No response" ip) }

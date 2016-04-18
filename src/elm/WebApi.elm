@@ -7,9 +7,9 @@ import Effects exposing (Effects)
 
 import ActionTypes exposing (Action(..))
 
-requestIP : String -> Effects Action
-requestIP url =
-  Http.get ("ip" := Json.string) url
+requestIP : Effects Action
+requestIP =
+  Http.get ("ip" := Json.string) "http://jsonip.com"
     |> Task.toMaybe
     |> Task.map UpdateIP
     |> Effects.task

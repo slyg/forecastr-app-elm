@@ -1,18 +1,18 @@
 module Store where
 
 import Effects exposing (Effects)
-import WebApi exposing (requestIP)
+import WebApi exposing (requestForecast)
 import ActionTypes exposing (Action(..))
 
 type alias Model =
   { nextId : Int
-  , ip : String
+  , cod : String
   }
 
 init : (Model, Effects Action)
 init =
   ( { nextId = 0
-    , ip = "Unknown"
+    , cod = "Unknown"
     }
   , Effects.none
   )
@@ -21,11 +21,11 @@ update : Action -> Model -> ( Model, Effects Action )
 update action model =
   case action of
 
-    RequestIP ->
-      (model, requestIP)
+    RequestForecast ->
+      (model, requestForecast "London")
 
-    UpdateIP ip ->
-      ( { model | ip = (Maybe.withDefault "No response" ip) }
+    UpdateForecast cod ->
+      ( { model | cod = (Maybe.withDefault "No response" cod) }
         , Effects.none
       )
 

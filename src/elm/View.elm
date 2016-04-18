@@ -11,6 +11,6 @@ import Store exposing (Model)
 view : Address Action -> Model -> Html
 view address model =
   div []
-    [ button [ onClick address RequestIP ] [ text "Get Ip" ]
-    , div [] [ text model.ip ]
+    [ button [ onClick address RequestForecast ] [ text "Get code" ]
+    , div [] [ text model.cod ]
   ]

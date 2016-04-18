@@ -4,7 +4,8 @@ import StartApp
 import Effects exposing (Effects, Never)
 import Task exposing (..)
 
-import App exposing (init, view, update)
+import Store exposing (init, update)
+import View exposing (view)
 
 app =
   StartApp.start

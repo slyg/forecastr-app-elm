@@ -5,4 +5,5 @@ import DataTypes
 type Action
   = NoOp
   | RequestForecast
-  | UpdateForecast (Maybe DataTypes.City)
+  | UpdateForecast DataTypes.City
+  | FetchError String

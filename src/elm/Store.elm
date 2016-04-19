@@ -39,10 +39,14 @@ update action model =
     RequestForecast ->
       (model, requestForecast "Paris")
 
-    UpdateForecast city ->
-      ( { model | city = (Maybe.withDefault initCity city) }
+    UpdateForecast data ->
+      ( { model | city = data }
         , Effects.none
       )
+
+    FetchError error ->
+      Debug.log (toString error)
+      (model, Effects.none)
 
     NoOp ->
       (model, Effects.none)

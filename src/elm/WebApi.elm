@@ -39,18 +39,17 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-resultToMaybe result =
+handleResult : Result a DataTypes.City -> Action
+handleResult result =
   case result of
     Ok data ->
-      Maybe.Just data
+      UpdateForecast data
     Err error ->
-      Debug.log (toString error)
-      Maybe.Nothing
+      FetchError (toString error)
 
 requestForecast : String -> Effects Action
 requestForecast query =
   Http.get forecastDecoder (forecastUrl query)
     |> Task.toResult
-    |> Task.map resultToMaybe
-    |> Task.map UpdateForecast
+    |> Task.map handleResult
     |> Effects.task

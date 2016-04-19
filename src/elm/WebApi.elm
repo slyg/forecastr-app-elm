@@ -7,6 +7,27 @@ import Task exposing (..)
 import Effects exposing (Effects)
 
 import ActionTypes exposing (Action(..))
+import DataTypes
+
+coordDecoder : Json.Decoder (DataTypes.Coord)
+coordDecoder =
+  Json.object2
+    DataTypes.Coord
+    ("lon" := Json.float)
+    ("lat" := Json.float)
+
+cityDecoder : Json.Decoder (DataTypes.City)
+cityDecoder =
+  Json.object4
+    DataTypes.City
+    ("coord" := coordDecoder)
+    ("country" := Json.string)
+    ("id" := Json.string)
+    ("name" := Json.string)
+
+forecastDecoder : Json.Decoder (DataTypes.City)
+forecastDecoder =
+  ("city" := cityDecoder)
 
 forecastUrl : String -> String
 forecastUrl query =
@@ -18,13 +39,9 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-forecast : Json.Decoder (String)
-forecast =
-  ("cod" := Json.string)
-
 requestForecast : String -> Effects Action
 requestForecast query =
-  Http.get forecast (forecastUrl query)
+  Http.get forecastDecoder (forecastUrl query)
     |> Task.toMaybe
     |> Task.map UpdateForecast
     |> Effects.task

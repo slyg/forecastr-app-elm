@@ -12,5 +12,5 @@ view : Address Action -> Model -> Html
 view address model =
   div []
     [ button [ onClick address RequestForecast ] [ text "Get code" ]
-    , div [] [ text model.cod ]
+    , div [] [ text model.city.name ]
   ]

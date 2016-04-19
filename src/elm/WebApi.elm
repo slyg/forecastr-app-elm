@@ -22,7 +22,7 @@ cityDecoder =
     DataTypes.City
     ("coord" := coordDecoder)
     ("country" := Json.string)
-    ("id" := Json.string)
+    ("id" := Json.int)
     ("name" := Json.string)
 
 forecastDecoder : Json.Decoder (DataTypes.City)
@@ -39,9 +39,18 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
+resultToMaybe result =
+  case result of
+    Ok data ->
+      Maybe.Just data
+    Err error ->
+      Debug.log (toString error)
+      Maybe.Nothing
+
 requestForecast : String -> Effects Action
 requestForecast query =
   Http.get forecastDecoder (forecastUrl query)
-    |> Task.toMaybe
+    |> Task.toResult
+    |> Task.map resultToMaybe
     |> Task.map UpdateForecast
     |> Effects.task

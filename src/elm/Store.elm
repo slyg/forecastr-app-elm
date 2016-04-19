@@ -19,7 +19,7 @@ initCoord =
 initCity : DataTypes.City
 initCity =
   { country = "UKN"
-  , id = "0"
+  , id = 0
   , name = "Unknown"
   , coord = initCoord
   }

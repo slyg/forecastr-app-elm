@@ -8,6 +8,7 @@ import DataTypes
 type alias Model =
   { nextId : Int
   , city : DataTypes.City
+  , query : Maybe (String)
   }
 
 initCoord : DataTypes.Coord
@@ -28,6 +29,7 @@ init : (Model, Effects Action)
 init =
   ( { nextId = 0
     , city = initCity
+    , query = Maybe.Nothing
     }
   , Effects.none
   )
@@ -36,8 +38,24 @@ update : Action -> Model -> ( Model, Effects Action )
 update action model =
   case action of
 
+    TypingQuery q ->
+      let
+        query =
+          if q == "" then
+            Maybe.Nothing
+          else
+            Maybe.Just q
+      in
+        ( { model | query = query }
+          , Effects.none
+        )
+
     RequestForecast ->
-      (model, requestForecast "Paris")
+      case model.query of
+        Just data ->
+          (model, requestForecast data)
+        Nothing ->
+          (model, Effects.none)
 
     UpdateForecast data ->
       ( { model | city = data }

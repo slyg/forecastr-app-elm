@@ -9,7 +9,8 @@ import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
 
 import ActionTypes exposing (Action(..))
-import Store exposing (Model, debounceProxy)
+import Store exposing (Model)
+import Util exposing (debounceProxy)
 
 onTextChange : (String -> Action) -> Html.Attribute
 onTextChange contentToValue =

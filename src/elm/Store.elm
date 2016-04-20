@@ -10,10 +10,6 @@ type alias Model =
   { city : DataTypes.City
   }
 
-debounceProxy : Signal.Mailbox Action
-debounceProxy =
-  Signal.mailbox NoOp
-
 initCoord : DataTypes.Coord
 initCoord =
   { lat = 0.0

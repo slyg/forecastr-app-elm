@@ -6,8 +6,9 @@ import Task exposing (..)
 import Time exposing(every, millisecond)
 import Signal.Time exposing (settledAfter)
 
-import Store exposing (init, update, debounceProxy)
+import Store exposing (init, update)
 import View exposing (view)
+import Util exposing (debounceProxy)
 
 app =
   StartApp.start

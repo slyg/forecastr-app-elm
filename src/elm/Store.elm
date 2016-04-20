@@ -1,12 +1,14 @@
 module Store where
 
 import Effects exposing (Effects)
+import Time exposing (Time)
 import WebApi exposing (requestForecast)
 import ActionTypes exposing (Action(..))
 import DataTypes
 
 type alias Model =
   { nextId : Int
+  , time : Time
   , city : DataTypes.City
   , query : Maybe (String)
   }
@@ -28,6 +30,7 @@ initCity =
 init : (Model, Effects Action)
 init =
   ( { nextId = 0
+    , time = 0
     , city = initCity
     , query = Maybe.Nothing
     }
@@ -65,6 +68,11 @@ update action model =
     FetchError error ->
       Debug.log (toString error)
       (model, Effects.none)
+
+    UpdateTime time ->
+      ( { model | time = time }
+        , Effects.none
+      )
 
     NoOp ->
       (model, Effects.none)

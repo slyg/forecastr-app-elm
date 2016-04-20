@@ -9,7 +9,11 @@ import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
 
 import ActionTypes exposing (Action(..))
-import Store exposing (Model)
+import Store exposing (Model, debounceProxy)
+
+onTextChange : (String -> Action) -> Html.Attribute
+onTextChange contentToValue =
+    on "input" targetValue (\str -> Signal.message debounceProxy.address (contentToValue str))
 
 lineStyle =
   style
@@ -25,12 +29,9 @@ view address model =
           [ type' "text"
           , autofocus True
           , placeholder "Enter city name"
-          , on "input" targetValue (Signal.message address << TypingQuery)
+          , onTextChange RequestForecast
           ]
           []
-        , button
-          [ onClick address RequestForecast ]
-          [ text "Get city data" ]
         ]
     , div
         [ lineStyle ]
@@ -43,16 +44,4 @@ view address model =
             ]
           )
         ]
-    , div
-      [ lineStyle ]
-      [ text ("Next query in " ++ (toString (model.nextQuerytime - model.time))) ]
-    , div
-      [ lineStyle ]
-      [ text (
-          if model.shouldQuery == True then
-            "shouldQuery"
-          else
-            ""
-        )
-      ]
     ]

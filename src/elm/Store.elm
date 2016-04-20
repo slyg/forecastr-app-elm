@@ -7,12 +7,12 @@ import ActionTypes exposing (Action(..))
 import DataTypes
 
 type alias Model =
-  { nextQuerytime : Time
-  , time : Time
-  , city : DataTypes.City
-  , query : Maybe (String)
-  , shouldQuery: Bool
+  { city : DataTypes.City
   }
+
+debounceProxy : Signal.Mailbox Action
+debounceProxy =
+  Signal.mailbox NoOp
 
 initCoord : DataTypes.Coord
 initCoord =
@@ -30,11 +30,7 @@ initCity =
 
 init : (Model, Effects Action)
 init =
-  ( { nextQuerytime = 0
-    , time = 0
-    , city = initCity
-    , query = Maybe.Nothing
-    , shouldQuery = False
+  ( { city = initCity
     }
   , Effects.none
   )
@@ -43,27 +39,11 @@ update : Action -> Model -> ( Model, Effects Action )
 update action model =
   case action of
 
-    TypingQuery q ->
-      let
-        query =
-          if q == "" then
-            Maybe.Nothing
-          else
-            Maybe.Just q
-      in
-        ( { model |
-              query = query ,
-              nextQuerytime = model.time + 1000
-          }
-          , Effects.none
-        )
-
-    RequestForecast ->
-      case model.query of
-        Just data ->
-          (model, requestForecast data)
-        Nothing ->
-          (model, Effects.none)
+    RequestForecast q ->
+      if q == "" then
+        (model, Effects.none)
+      else
+        (model, requestForecast q)
 
     UpdateForecast data ->
       ( { model | city = data }
@@ -73,19 +53,6 @@ update action model =
     FetchError error ->
       Debug.log (toString error)
       (model, Effects.none)
-
-    UpdateTime time ->
-        ( { model |
-              time = time,
-              shouldQuery =
-                if (model.time - model.nextQuerytime) == 0 then
-                  Debug.log "query"
-                  True
-                else
-                  False
-          }
-          , Effects.none
-        )
 
     NoOp ->
       (model, Effects.none)

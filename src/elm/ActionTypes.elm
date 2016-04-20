@@ -5,8 +5,6 @@ import Time exposing (Time)
 
 type Action
   = NoOp
-  | UpdateTime Time
-  | TypingQuery String
-  | RequestForecast
+  | RequestForecast String
   | UpdateForecast DataTypes.City
   | FetchError String

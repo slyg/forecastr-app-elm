@@ -4,10 +4,10 @@ import StartApp
 import Effects exposing (Effects, Never)
 import Task exposing (..)
 import Time exposing(every, millisecond)
+import Signal.Time exposing (settledAfter)
 
-import Store exposing (init, update)
+import Store exposing (init, update, debounceProxy)
 import View exposing (view)
-import ActionTypes exposing (Action(..))
 
 app =
   StartApp.start
@@ -15,8 +15,7 @@ app =
     , view = view
     , update = update
     , inputs =
-      [
-        Signal.map UpdateTime <| every millisecond
+      [ settledAfter (500 * Time.millisecond) debounceProxy.signal
       ]
     }
 

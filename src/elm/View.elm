@@ -19,23 +19,28 @@ lineStyle =
 view : Address Action -> Model -> Html
 view address model =
   div []
-    [ div [ lineStyle ]
-      [ input
-        [ type' "text"
-        , autofocus True
-        , placeholder "Enter city name"
-        , on "input" targetValue (Signal.message address << TypingQuery)
-        ]
-        []
-      , button [ onClick address RequestForecast ] [ text "Get city data" ]
-      ]
-    , div [ lineStyle ]
-      [ text
-        ( String.concat
-          [ model.city.name
-            , " ("
-            , model.city.country, ")"
+    [ div
+        [ lineStyle ]
+        [ input
+          [ type' "text"
+          , autofocus True
+          , placeholder "Enter city name"
+          , on "input" targetValue (Signal.message address << TypingQuery)
           ]
-        )
-      ]
-  ]
+          []
+        , button
+          [ onClick address RequestForecast ]
+          [ text "Get city data" ]
+        ]
+    , div
+        [ lineStyle ]
+        [ text
+          ( String.concat
+            [ model.city.name
+            , " ("
+            , model.city.country
+            , ")"
+            ]
+          )
+        ]
+    ]

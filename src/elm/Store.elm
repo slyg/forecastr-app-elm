@@ -7,10 +7,11 @@ import ActionTypes exposing (Action(..))
 import DataTypes
 
 type alias Model =
-  { nextId : Int
+  { nextQuerytime : Time
   , time : Time
   , city : DataTypes.City
   , query : Maybe (String)
+  , shouldQuery: Bool
   }
 
 initCoord : DataTypes.Coord
@@ -29,10 +30,11 @@ initCity =
 
 init : (Model, Effects Action)
 init =
-  ( { nextId = 0
+  ( { nextQuerytime = 0
     , time = 0
     , city = initCity
     , query = Maybe.Nothing
+    , shouldQuery = False
     }
   , Effects.none
   )
@@ -49,7 +51,10 @@ update action model =
           else
             Maybe.Just q
       in
-        ( { model | query = query }
+        ( { model |
+              query = query ,
+              nextQuerytime = model.time + 1000
+          }
           , Effects.none
         )
 
@@ -70,9 +75,17 @@ update action model =
       (model, Effects.none)
 
     UpdateTime time ->
-      ( { model | time = time }
-        , Effects.none
-      )
+        ( { model |
+              time = time,
+              shouldQuery =
+                if (model.time - model.nextQuerytime) == 0 then
+                  Debug.log "query"
+                  True
+                else
+                  False
+          }
+          , Effects.none
+        )
 
     NoOp ->
       (model, Effects.none)

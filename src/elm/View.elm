@@ -43,4 +43,16 @@ view address model =
             ]
           )
         ]
+    , div
+      [ lineStyle ]
+      [ text ("Next query in " ++ (toString (model.nextQuerytime - model.time))) ]
+    , div
+      [ lineStyle ]
+      [ text (
+          if model.shouldQuery == True then
+            "shouldQuery"
+          else
+            ""
+        )
+      ]
     ]

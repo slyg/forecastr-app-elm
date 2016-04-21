@@ -1,4 +1,4 @@
-module Store where
+module State where
 
 import Effects exposing (Effects)
 import Time exposing (Time)

@@ -3,20 +3,15 @@ module Store where
 import Effects exposing (Effects)
 import Time exposing (Time)
 import WebApi exposing (requestForecast)
-import ActionTypes exposing (Action(..))
-import DataTypes
+import Types exposing (Action(..))
 
-type alias Model =
-  { city : DataTypes.City
-  }
-
-initCoord : DataTypes.Coord
+initCoord : Types.Coord
 initCoord =
   { lat = 0.0
   , lon = 0.0
   }
 
-initCity : DataTypes.City
+initCity : Types.City
 initCity =
   { country = "UKN"
   , id = 0
@@ -24,14 +19,14 @@ initCity =
   , coord = initCoord
   }
 
-init : (Model, Effects Action)
+init : (Types.Model, Effects Action)
 init =
   ( { city = initCity
     }
   , Effects.none
   )
 
-update : Action -> Model -> ( Model, Effects Action )
+update : Action -> Types.Model -> ( Types.Model, Effects Action )
 update action model =
   case action of
 

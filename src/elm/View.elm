@@ -2,14 +2,13 @@ module View where
 
 import StartApp
 import String
-import Html exposing (Html, text, div, button, input)
+import Html exposing (Html, text, div, input)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (style, type', placeholder, autofocus)
 import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
 
-import ActionTypes exposing (Action(..))
-import Store exposing (Model)
+import Types exposing (Action(..))
 import Util exposing (debounceProxy)
 
 onTextChange : (String -> Action) -> Html.Attribute
@@ -21,7 +20,7 @@ lineStyle =
     [ ("padding", "10px 10px 0")
     ]
 
-view : Address Action -> Model -> Html
+view : Address Action -> Types.Model -> Html
 view address model =
   div []
     [ div

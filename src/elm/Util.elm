@@ -1,6 +1,6 @@
 module Util where
 
-import ActionTypes exposing (Action(NoOp))
+import Types exposing (Action(NoOp))
 
 debounceProxy : Signal.Mailbox Action
 debounceProxy =

@@ -6,26 +6,25 @@ import Json.Decode as Json exposing ((:=))
 import Task exposing (..)
 import Effects exposing (Effects)
 
-import ActionTypes exposing (Action(..))
-import DataTypes
+import Types exposing (Action(..))
 
-coordDecoder : Json.Decoder (DataTypes.Coord)
+coordDecoder : Json.Decoder (Types.Coord)
 coordDecoder =
   Json.object2
-    DataTypes.Coord
+    Types.Coord
     ("lon" := Json.float)
     ("lat" := Json.float)
 
-cityDecoder : Json.Decoder (DataTypes.City)
+cityDecoder : Json.Decoder (Types.City)
 cityDecoder =
   Json.object4
-    DataTypes.City
+    Types.City
     ("coord" := coordDecoder)
     ("country" := Json.string)
     ("id" := Json.int)
     ("name" := Json.string)
 
-forecastDecoder : Json.Decoder (DataTypes.City)
+forecastDecoder : Json.Decoder (Types.City)
 forecastDecoder =
   ("city" := cityDecoder)
 
@@ -39,7 +38,7 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-handleResult : Result a DataTypes.City -> Action
+handleResult : Result a Types.City -> Action
 handleResult result =
   case result of
     Ok data ->

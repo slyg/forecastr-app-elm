@@ -12,6 +12,16 @@ type alias Coord =
   , lon: Float
   }
 
+type alias ForecastItem =
+  { dt: Int
+  , dt_txt: String
+  }
+
+type alias Forecast =
+  { city : City
+  , list : List ForecastItem
+  }
+
 type alias Model =
   { city : City
   }
@@ -19,5 +29,5 @@ type alias Model =
 type Action
   = NoOp
   | RequestForecast String
-  | UpdateForecast City
+  | UpdateForecast Forecast
   | FetchError String

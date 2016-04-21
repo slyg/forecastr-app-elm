@@ -24,9 +24,19 @@ cityDecoder =
     ("id" := Json.int)
     ("name" := Json.string)
 
-forecastDecoder : Json.Decoder (Types.City)
+forecastDecoder : Json.Decoder (Types.ForecastItem)
 forecastDecoder =
-  ("city" := cityDecoder)
+  Json.object2
+    Types.ForecastItem
+    ("dt" := Json.int)
+    ("dt_txt" := Json.string)
+
+responseDecoder : Json.Decoder (Types.Forecast)
+responseDecoder =
+  Json.object2
+    Types.Forecast
+    ("city" := cityDecoder)
+    ("list" := Json.list forecastDecoder)
 
 forecastUrl : String -> String
 forecastUrl query =
@@ -38,7 +48,7 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-handleResult : Result a Types.City -> Action
+handleResult : Result a Types.Forecast -> Action
 handleResult result =
   case result of
     Ok data ->
@@ -48,7 +58,7 @@ handleResult result =
 
 requestForecast : String -> Effects Action
 requestForecast query =
-  Http.get forecastDecoder (forecastUrl query)
+  Http.get responseDecoder (forecastUrl query)
     |> Task.toResult
     |> Task.map handleResult
     |> Effects.task

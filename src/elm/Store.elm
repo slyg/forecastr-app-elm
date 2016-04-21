@@ -37,7 +37,7 @@ update action model =
         (model, requestForecast q)
 
     UpdateForecast data ->
-      ( { model | city = data }
+      ( { model | city = data.city }
         , Effects.none
       )
 

@@ -24,6 +24,7 @@ type alias Forecast =
 
 type alias Model =
   { city : City
+  , timeTable : List String
   }
 
 type Action

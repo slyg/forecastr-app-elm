@@ -22,6 +22,7 @@ initCity =
 init : (Types.Model, Effects Action)
 init =
   ( { city = initCity
+    , timeTable = []
     }
   , Effects.none
   )
@@ -37,7 +38,10 @@ update action model =
         (model, requestForecast q)
 
     UpdateForecast data ->
-      ( { model | city = data.city }
+      ( { model |
+            city = data.city,
+            timeTable = List.map .dt_txt data.list
+        }
         , Effects.none
       )
 

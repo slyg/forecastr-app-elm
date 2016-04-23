@@ -1,7 +1,8 @@
 module State where
 
 import Effects exposing (Effects)
-import Time exposing (Time)
+import Date exposing (Date)
+import Result exposing (Result)
 import WebApi exposing (requestForecast)
 import Types exposing (Action(..))
 
@@ -38,12 +39,18 @@ update action model =
         (model, requestForecast q)
 
     UpdateForecast data ->
-      ( { model |
-            city = data.city,
-            timeTable = List.map .dt_txt data.list
-        }
-        , Effects.none
-      )
+      let
+        dateParser d =
+          .dt_txt d
+            |> Date.fromString
+            |> Result.toMaybe
+      in
+        ( { model |
+              city = data.city,
+              timeTable = List.map dateParser data.list
+          }
+          , Effects.none
+        )
 
     FetchError error ->
       Debug.log (toString error)

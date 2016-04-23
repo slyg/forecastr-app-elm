@@ -1,5 +1,7 @@
 module Types where
 
+import Date exposing (Date)
+
 type alias City =
   { coord: Coord
   , country: String
@@ -24,7 +26,7 @@ type alias Forecast =
 
 type alias Model =
   { city : City
-  , timeTable : List String
+  , timeTable : List (Maybe Date)
   }
 
 type Action

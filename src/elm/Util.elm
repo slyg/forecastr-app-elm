@@ -7,16 +7,13 @@ debounceProxy : Signal.Mailbox Action
 debounceProxy =
   Signal.mailbox NoOp
 
-findWeekDay : Date -> String
-findWeekDay date =
-  let
-    day = dayOfWeek date
-  in
-    case day of
-      Mon -> "Monday"
-      Tue -> "Tuesday"
-      Wed -> "Wednesday"
-      Thu -> "Thursday"
-      Fri -> "Friday"
-      Sat -> "Saturday"
-      Sun -> "Sunday"
+findWeekDay : Day -> String
+findWeekDay day =
+  case day of
+    Mon -> "Monday"
+    Tue -> "Tuesday"
+    Wed -> "Wednesday"
+    Thu -> "Thursday"
+    Fri -> "Friday"
+    Sat -> "Saturday"
+    Sun -> "Sunday"

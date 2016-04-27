@@ -24,10 +24,10 @@ cityDecoder =
     ("id" := Json.int)
     ("name" := Json.string)
 
-forecastDecoder : Json.Decoder (Types.ForecastItem)
+forecastDecoder : Json.Decoder (Types.ForecastItemRawData)
 forecastDecoder =
   Json.object2
-    Types.ForecastItem
+    Types.ForecastItemRawData
     ("dt" := Json.int)
     ("dt_txt" := Json.string)
 

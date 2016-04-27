@@ -1,6 +1,6 @@
 module Types where
 
-import Date exposing (Date)
+import Date exposing (Date, Day)
 
 type alias City =
   { coord: Coord
@@ -14,19 +14,26 @@ type alias Coord =
   , lon: Float
   }
 
-type alias ForecastItem =
+type alias ForecastItemRawData =
   { dt: Int
   , dt_txt: String
   }
 
+type alias ForecastItem =
+  { day: Day
+  }
+
 type alias Forecast =
   { city : City
-  , list : List ForecastItem
+  , list : List ForecastItemRawData
   }
+
+type alias ForecastsPerDay =
+  (Day, List ForecastItem)
 
 type alias Model =
   { city : City
-  , timeTable : List (Maybe Date)
+  , timeTable : List (Maybe ForecastItem)
   }
 
 type Action

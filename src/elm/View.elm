@@ -21,11 +21,11 @@ lineStyle =
     [ ("padding", "10px 10px 0")
     ]
 
-forecastItemView : Maybe Date -> Html
-forecastItemView dt_txt =
-  case dt_txt of
-    Just dt_txt ->
-      li [] [ text (findWeekDay dt_txt) ]
+forecastItemView : Maybe Types.ForecastItem -> Html
+forecastItemView d =
+  case d of
+    Just d ->
+      li [] [ text (findWeekDay d.day) ]
     Nothing ->
       li [] [ text "N/A" ]
 

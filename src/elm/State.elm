@@ -1,7 +1,7 @@
 module State where
 
 import Effects exposing (Effects)
-import Date exposing (Date)
+import Date exposing (Date, dayOfWeek)
 import Result exposing (Result)
 import WebApi exposing (requestForecast)
 import Types exposing (Action(..))
@@ -28,11 +28,19 @@ init =
   , Effects.none
   )
 
-extractDateFromForecastItem : Types.ForecastItem -> Maybe Date
-extractDateFromForecastItem d =
-  .dt_txt d
-    |> Date.fromString
-    |> Result.toMaybe
+parseRawForecastItem : Types.ForecastItemRawData -> Maybe Types.ForecastItem
+parseRawForecastItem d =
+  let
+    date =
+      .dt_txt d
+        |> Date.fromString
+        |> Result.toMaybe
+  in
+    case date of
+      Just date ->
+        Just {day = dayOfWeek date}
+      Nothing ->
+        Nothing
 
 update : Action -> Types.Model -> ( Types.Model, Effects Action )
 update action model =
@@ -47,7 +55,7 @@ update action model =
     UpdateForecast data ->
       ( { model |
             city = data.city,
-            timeTable = List.map extractDateFromForecastItem data.list
+            timeTable = List.map parseRawForecastItem data.list
         }
         , Effects.none
       )

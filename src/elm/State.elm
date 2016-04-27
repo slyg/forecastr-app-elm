@@ -28,6 +28,12 @@ init =
   , Effects.none
   )
 
+extractDateFromForecastItem : Types.ForecastItem -> Maybe Date
+extractDateFromForecastItem d =
+  .dt_txt d
+    |> Date.fromString
+    |> Result.toMaybe
+
 update : Action -> Types.Model -> ( Types.Model, Effects Action )
 update action model =
   case action of
@@ -39,18 +45,12 @@ update action model =
         (model, requestForecast q)
 
     UpdateForecast data ->
-      let
-        dateParser d =
-          .dt_txt d
-            |> Date.fromString
-            |> Result.toMaybe
-      in
-        ( { model |
-              city = data.city,
-              timeTable = List.map dateParser data.list
-          }
-          , Effects.none
-        )
+      ( { model |
+            city = data.city,
+            timeTable = List.map extractDateFromForecastItem data.list
+        }
+        , Effects.none
+      )
 
     FetchError error ->
       Debug.log (toString error)

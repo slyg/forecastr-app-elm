@@ -10,7 +10,7 @@ import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
 
 import Types exposing (Action(..))
-import Util exposing (debounceProxy)
+import Util exposing (debounceProxy, findWeekDay)
 
 onTextChange : (String -> Action) -> Html.Attribute
 onTextChange contentToValue =
@@ -21,27 +21,13 @@ lineStyle =
     [ ("padding", "10px 10px 0")
     ]
 
-findWeekDay : Date -> String
-findWeekDay date =
-  let
-    day = Date.dayOfWeek date
-  in
-    case day of
-      Date.Mon -> "Monday"
-      Date.Tue -> "Tuesday"
-      Date.Wed -> "Wednesday"
-      Date.Thu -> "Thursday"
-      Date.Fri -> "Friday"
-      Date.Sat -> "Saturday"
-      Date.Sun -> "Sunday"
-
 forecastItemView : Maybe Date -> Html
 forecastItemView dt_txt =
   case dt_txt of
     Just dt_txt ->
       li [] [ text (findWeekDay dt_txt) ]
     Nothing ->
-      li [] [ text "Oups" ]
+      li [] [ text "N/A" ]
 
 view : Address Action -> Types.Model -> Html
 view address model =

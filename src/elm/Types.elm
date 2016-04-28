@@ -5,15 +5,9 @@ import Date exposing (Date, Day)
 -- shared types (Raw and Model)
 
 type alias City =
-  { coord: Coord
-  , country: String
+  { country: String
   , id: Int
   , name: String
-  }
-
-type alias Coord =
-  { lat: Float
-  , lon: Float
   }
 
 -- Raw data types (coming from API)

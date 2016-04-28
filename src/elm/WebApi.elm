@@ -8,18 +8,10 @@ import Effects exposing (Effects)
 
 import Types exposing (Action(..))
 
-coordDecoder : Json.Decoder (Types.Coord)
-coordDecoder =
-  Json.object2
-    Types.Coord
-    ("lon" := Json.float)
-    ("lat" := Json.float)
-
 cityDecoder : Json.Decoder (Types.City)
 cityDecoder =
-  Json.object4
+  Json.object3
     Types.City
-    ("coord" := coordDecoder)
     ("country" := Json.string)
     ("id" := Json.int)
     ("name" := Json.string)

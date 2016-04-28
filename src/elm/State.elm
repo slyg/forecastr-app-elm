@@ -1,10 +1,9 @@
 module State where
 
 import Effects exposing (Effects)
-import Date exposing (Date, dayOfWeek)
-import Result exposing (Result)
 import WebApi exposing (requestForecast)
 import Types exposing (Action(..))
+import Selectors exposing (selectFromRawForecastItem, groupByDay)
 
 initCoord : Types.Coord
 initCoord =
@@ -28,47 +27,6 @@ init =
     }
   , Effects.none
   )
-
-selectFromRawForecastItem : Types.ForecastItemRawData -> Maybe Types.ForecastItem
-selectFromRawForecastItem d =
-  let
-    date =
-      .dt_txt d
-        |> Date.fromString
-        |> Result.toMaybe
-  in
-    case date of
-      Just date ->
-        Just (
-          { day = dayOfWeek date
-          , hour = Date.hour date
-          }
-        )
-      Nothing ->
-        Nothing
-
-groupByDay : Maybe Types.ForecastItem -> List Types.ForecastsPerDay -> List Types.ForecastsPerDay
-groupByDay x acc =
-  case x of
-    Nothing ->
-      acc
-    Just x ->
-      let
-        { day } = x
-        default = (day, [x]) :: acc
-      in
-        case acc of
-          [] ->
-            default
-          h::_ ->
-            let
-              (hDay, hRef) = h
-              accTail = List.drop 1 acc
-            in
-              if hDay == day then
-                  (day, x :: hRef) :: accTail
-              else
-                default
 
 update : Action -> Types.Model -> ( Types.Model, Effects Action )
 update action model =

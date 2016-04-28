@@ -1,8 +1,6 @@
 module View where
 
-import StartApp
 import String
-import Date exposing (Date)
 import Html exposing (Html, text, div, input, ul, li)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (style, type', placeholder, autofocus)
@@ -16,18 +14,28 @@ onTextChange : (String -> Action) -> Html.Attribute
 onTextChange contentToValue =
     on "input" targetValue (\str -> Signal.message debounceProxy.address (contentToValue str))
 
+lineStyle : Html.Attribute
 lineStyle =
   style
     [ ("padding", "10px 10px 0")
     ]
 
-forecastItemView : Maybe Types.ForecastItem -> Html
+forecastItemView : Types.ForecastItem -> Html
 forecastItemView d =
-  case d of
-    Just d ->
-      li [] [ text (findWeekDay d.day) ]
-    Nothing ->
-      li [] [ text "N/A" ]
+  let
+    { day } = d
+  in
+    li [] [ text (findWeekDay day) ]
+
+displayDay : Types.ForecastsPerDay -> Html
+displayDay groupItem =
+  let
+    (day, forecasts) = groupItem
+  in
+    li [] [
+      text (findWeekDay day),
+      ul [] (List.map forecastItemView forecasts)
+    ]
 
 view : Address Action -> Types.Model -> Html
 view address model =
@@ -55,5 +63,5 @@ view address model =
         ]
     , ul
         [ lineStyle ]
-        (List.map forecastItemView model.timeTable)
+        (List.map displayDay model.groupedByDay)
     ]

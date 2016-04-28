@@ -29,8 +29,8 @@ init =
   , Effects.none
   )
 
-parseRawForecastItem : Types.ForecastItemRawData -> Maybe Types.ForecastItem
-parseRawForecastItem d =
+selectFromRawForecastItem : Types.ForecastItemRawData -> Maybe Types.ForecastItem
+selectFromRawForecastItem d =
   let
     date =
       .dt_txt d
@@ -82,7 +82,7 @@ update action model =
 
     UpdateForecast data ->
       let
-        timeTable = List.map parseRawForecastItem data.list
+        timeTable = List.map selectFromRawForecastItem data.list
       in
         ( { model |
               city = data.city,

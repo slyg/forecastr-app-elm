@@ -30,6 +30,7 @@ type alias WeatherItemRawData =
 type alias ForecastItem =
   { day: Day
   , hour: Int
+  , description : String
   }
 
 type alias Forecast =

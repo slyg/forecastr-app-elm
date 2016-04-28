@@ -12,12 +12,23 @@ selectFromRawForecastItem d =
       .dt_txt d
         |> Date.fromString
         |> Result.toMaybe
+    maybeWeather =
+      .weather d
+        |> List.head
+    description =
+      case maybeWeather of
+        Just weather ->
+          weather.description
+        Nothing ->
+          "N/A"
+
   in
     case date of
       Just date ->
         Just (
           { day = dayOfWeek date
           , hour = Date.hour date
+          , description = description
           }
         )
       Nothing ->

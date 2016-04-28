@@ -23,9 +23,18 @@ lineStyle =
 forecastItemView : Types.ForecastItem -> Html
 forecastItemView d =
   let
-    { hour } = d
+    { hour, description } = d
   in
-    li [] [ text (toString hour ++ ":00") ]
+    li []
+      [ text
+        (
+          String.concat
+          [ (toString hour ++ ":00")
+          , " - "
+          , description
+          ]
+        )
+      ]
 
 forecastPerDayView : Types.ForecastsPerDay -> Html
 forecastPerDayView groupItem =

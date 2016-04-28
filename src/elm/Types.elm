@@ -2,6 +2,8 @@ module Types where
 
 import Date exposing (Date, Day)
 
+-- shared types (Raw and Model)
+
 type alias City =
   { coord: Coord
   , country: String
@@ -12,6 +14,13 @@ type alias City =
 type alias Coord =
   { lat: Float
   , lon: Float
+  }
+
+-- Raw data types (coming from API)
+
+type alias ForecastRawData =
+  { city : City
+  , list : List ForecastItemRawData
   }
 
 type alias ForecastItemRawData =
@@ -27,19 +36,7 @@ type alias WeatherItemRawData =
   , main: String
   }
 
-type alias ForecastItem =
-  { day: Day
-  , hour: Int
-  , description : String
-  }
-
-type alias Forecast =
-  { city : City
-  , list : List ForecastItemRawData
-  }
-
-type alias ForecastsPerDay =
-  (Day, List ForecastItem)
+-- Model's data types
 
 type alias Model =
   { city : City
@@ -47,8 +44,19 @@ type alias Model =
   , groupedByDay : List (ForecastsPerDay)
   }
 
+type alias ForecastItem =
+  { day: Day
+  , hour: Int
+  , description : String
+  }
+
+type alias ForecastsPerDay =
+  (Day, List ForecastItem)
+
+-- Action types
+
 type Action
   = NoOp
   | RequestForecast String
-  | UpdateForecast Forecast
+  | UpdateForecast ForecastRawData
   | FetchError String

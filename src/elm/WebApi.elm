@@ -41,10 +41,10 @@ forecastDecoder =
     ("dt_txt" := Json.string)
     ("weather" := Json.list weatherDecoder)
 
-responseDecoder : Json.Decoder (Types.Forecast)
+responseDecoder : Json.Decoder (Types.ForecastRawData)
 responseDecoder =
   Json.object2
-    Types.Forecast
+    Types.ForecastRawData
     ("city" := cityDecoder)
     ("list" := Json.list forecastDecoder)
 
@@ -58,7 +58,7 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-handleResult : Result a Types.Forecast -> Action
+handleResult : Result a Types.ForecastRawData -> Action
 handleResult result =
   case result of
     Ok data ->

@@ -17,6 +17,14 @@ type alias Coord =
 type alias ForecastItemRawData =
   { dt: Int
   , dt_txt: String
+  , weather: List WeatherItemRawData
+  }
+
+type alias WeatherItemRawData =
+  { description: String
+  , icon: String
+  , id: Int
+  , main: String
   }
 
 type alias ForecastItem =

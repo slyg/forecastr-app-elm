@@ -24,12 +24,22 @@ cityDecoder =
     ("id" := Json.int)
     ("name" := Json.string)
 
+weatherDecoder : Json.Decoder (Types.WeatherItemRawData)
+weatherDecoder =
+  Json.object4
+    Types.WeatherItemRawData
+    ("description" := Json.string)
+    ("icon" := Json.string)
+    ("id" := Json.int)
+    ("main" := Json.string)
+
 forecastDecoder : Json.Decoder (Types.ForecastItemRawData)
 forecastDecoder =
-  Json.object2
+  Json.object3
     Types.ForecastItemRawData
     ("dt" := Json.int)
     ("dt_txt" := Json.string)
+    ("weather" := Json.list weatherDecoder)
 
 responseDecoder : Json.Decoder (Types.Forecast)
 responseDecoder =

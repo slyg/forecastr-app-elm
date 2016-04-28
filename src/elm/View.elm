@@ -32,10 +32,10 @@ forecastPerDayView groupItem =
   let
     (day, forecasts) = groupItem
   in
-    li [] [
-      text (findWeekDay day),
-      ul [] (List.map forecastItemView forecasts)
-    ]
+    li []
+      [ text (findWeekDay day)
+      , ul [] (List.map forecastItemView forecasts)
+      ]
 
 view : Address Action -> Types.Model -> Html
 view address model =

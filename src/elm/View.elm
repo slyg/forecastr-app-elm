@@ -24,17 +24,13 @@ forecastItemView : Types.ForecastItem -> Html
 forecastItemView d =
   let
     { hour, description } = d
+    formattedHour =
+      if hour < 12 then
+        String.concat ["0", toString hour, ":00"]
+      else
+        toString hour ++ ":00"
   in
-    li []
-      [ text
-        (
-          String.concat
-          [ (toString hour ++ ":00")
-          , " - "
-          , description
-          ]
-        )
-      ]
+    li [] [ text (String.concat [formattedHour, " - ", description] ) ]
 
 forecastPerDayView : Types.ForecastsPerDay -> Html
 forecastPerDayView groupItem =

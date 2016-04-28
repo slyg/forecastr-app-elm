@@ -39,7 +39,11 @@ parseRawForecastItem d =
   in
     case date of
       Just date ->
-        Just {day = dayOfWeek date}
+        Just (
+          { day = dayOfWeek date
+          , hour = Date.hour date
+          }
+        )
       Nothing ->
         Nothing
 

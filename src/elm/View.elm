@@ -23,12 +23,12 @@ lineStyle =
 forecastItemView : Types.ForecastItem -> Html
 forecastItemView d =
   let
-    { day } = d
+    { hour } = d
   in
-    li [] [ text (findWeekDay day) ]
+    li [] [ text (toString hour ++ ":00") ]
 
-displayDay : Types.ForecastsPerDay -> Html
-displayDay groupItem =
+forecastPerDayView : Types.ForecastsPerDay -> Html
+forecastPerDayView groupItem =
   let
     (day, forecasts) = groupItem
   in
@@ -63,5 +63,5 @@ view address model =
         ]
     , ul
         [ lineStyle ]
-        (List.map displayDay model.groupedByDay)
+        (List.map forecastPerDayView model.groupedByDay)
     ]

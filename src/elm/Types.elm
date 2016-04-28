@@ -29,6 +29,7 @@ type alias WeatherItemRawData =
 
 type alias ForecastItem =
   { day: Day
+  , hour: Int
   }
 
 type alias Forecast =

@@ -21,7 +21,6 @@ selectFromRawForecastItem d =
           weather.description
         Nothing ->
           "N/A"
-
   in
     case date of
       Just date ->
@@ -34,25 +33,21 @@ selectFromRawForecastItem d =
       Nothing ->
         Nothing
 
-groupByDay : Maybe Types.ForecastItem -> List Types.ForecastsPerDay -> List Types.ForecastsPerDay
+groupByDay : Types.ForecastItem -> List Types.ForecastsPerDay -> List Types.ForecastsPerDay
 groupByDay x acc =
-  case x of
-    Nothing ->
-      acc
-    Just x ->
-      let
-        { day } = x
-        default = (day, [x]) :: acc
-      in
-        case acc of
-          [] ->
+  let
+    { day } = x
+    default = (day, [x]) :: acc
+  in
+    case acc of
+      [] ->
+        default
+      h::_ ->
+        let
+          (hDay, hRef) = h
+          accTail = List.drop 1 acc
+        in
+          if hDay == day then
+              (day, x :: hRef) :: accTail
+          else
             default
-          h::_ ->
-            let
-              (hDay, hRef) = h
-              accTail = List.drop 1 acc
-            in
-              if hDay == day then
-                  (day, x :: hRef) :: accTail
-              else
-                default

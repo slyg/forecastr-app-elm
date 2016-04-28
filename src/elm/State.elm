@@ -5,18 +5,12 @@ import WebApi exposing (requestForecast)
 import Types exposing (Action(..))
 import Selectors exposing (selectFromRawForecastItem, groupByDay)
 
-initCoord : Types.Coord
-initCoord =
-  { lat = 0.0
-  , lon = 0.0
-  }
 
 initCity : Types.City
 initCity =
   { country = "UKN"
   , id = 0
   , name = "Unknown"
-  , coord = initCoord
   }
 
 init : (Types.Model, Effects Action)
@@ -41,11 +35,12 @@ update action model =
     UpdateForecast data ->
       let
         timeTable = List.map selectFromRawForecastItem data.list
+        safeGroupByDay = List.filterMap identity >> List.foldr groupByDay []
       in
         ( { model |
               city = data.city,
               timeTable = timeTable,
-              groupedByDay = List.foldr groupByDay [] timeTable
+              groupedByDay = safeGroupByDay timeTable
           }
           , Effects.none
         )

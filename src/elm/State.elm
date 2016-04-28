@@ -24,6 +24,7 @@ init : (Types.Model, Effects Action)
 init =
   ( { city = initCity
     , timeTable = []
+    , groupedByDay = []
     }
   , Effects.none
   )
@@ -42,6 +43,29 @@ parseRawForecastItem d =
       Nothing ->
         Nothing
 
+groupByDay : Maybe Types.ForecastItem -> List Types.ForecastsPerDay -> List Types.ForecastsPerDay
+groupByDay x acc =
+  case x of
+    Nothing ->
+      acc
+    Just x ->
+      let
+        { day } = x
+        default = (day, [x]) :: acc
+      in
+        case acc of
+          [] ->
+            default
+          h::_ ->
+            let
+              (hDay, hRef) = h
+              accTail = List.drop 1 acc
+            in
+              if hDay == day then
+                  (day, x :: hRef) :: accTail
+              else
+                default
+
 update : Action -> Types.Model -> ( Types.Model, Effects Action )
 update action model =
   case action of
@@ -53,12 +77,16 @@ update action model =
         (model, requestForecast q)
 
     UpdateForecast data ->
-      ( { model |
-            city = data.city,
-            timeTable = List.map parseRawForecastItem data.list
-        }
-        , Effects.none
-      )
+      let
+        timeTable = List.map parseRawForecastItem data.list
+      in
+        ( { model |
+              city = data.city,
+              timeTable = timeTable,
+              groupedByDay = List.foldr groupByDay [] timeTable
+          }
+          , Effects.none
+        )
 
     FetchError error ->
       Debug.log (toString error)

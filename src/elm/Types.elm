@@ -34,6 +34,7 @@ type alias ForecastsPerDay =
 type alias Model =
   { city : City
   , timeTable : List (Maybe ForecastItem)
+  , groupedByDay : List (ForecastsPerDay)
   }
 
 type Action

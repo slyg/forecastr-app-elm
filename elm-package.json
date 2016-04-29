@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Sample app to play with elm",
-    "repository": "https://github.com/user/project.git",
+    "repository": "https://github.com/slyg/forecastr-app-elm",
     "license": "BSD3",
     "source-directories": [
         "./src/elm"

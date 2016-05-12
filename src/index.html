@@ -7,7 +7,21 @@
   <body>
     <script type="text/javascript" src="bundle.js"></script>
     <script type="text/javascript">
-      Elm.Main.fullscreen();
+      var app = Elm.Main.fullscreen();
+
+      var timed;
+
+      app.ports.sendDebouncedMessage.subscribe(function(data){
+
+        if (timed) {
+          clearTimeout(timed);
+        }
+
+        timed = setTimeout(function(){
+          app.ports.receiveDebouncedMessage.send(data);
+        }, 500);
+
+      });
     </script>
   </body>
 </html>

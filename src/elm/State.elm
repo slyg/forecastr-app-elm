@@ -1,10 +1,13 @@
-module State exposing (..)
+port module State exposing (..)
+
+import String
 
 import Platform.Cmd as Cmd exposing (Cmd)
 import WebApi exposing (requestForecast)
 import Types exposing (Msg(..))
 import Selectors exposing (selectFromRawForecastItem, groupByDay)
 
+-- MODEL
 
 initCity : Types.City
 initCity =
@@ -22,15 +25,22 @@ init =
   , Cmd.none
   )
 
+-- UPDATE
+
+port sendDebouncedMessage : String -> Cmd msg
+
 update : Msg -> Types.Model -> ( Types.Model, Cmd Msg )
 update action model =
   case action of
 
-    RequestForecast q ->
+    DebouncedRequestForecast q ->
       if q == "" then
         (model, Cmd.none)
       else
-        (model, requestForecast q)
+        (model, sendDebouncedMessage q)
+
+    RequestForecast q ->
+      (model, requestForecast q)
 
     UpdateForecast data ->
       let
@@ -51,3 +61,11 @@ update action model =
 
     NoOp ->
       (model, Cmd.none)
+
+-- SUBSCRIPTIONS
+
+port receiveDebouncedMessage : (String -> msg) -> Sub msg
+
+subscriptions : Types.Model -> Sub Msg
+subscriptions model =
+  receiveDebouncedMessage RequestForecast

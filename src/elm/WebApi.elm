@@ -1,12 +1,12 @@
-module WebApi where
+module WebApi exposing (..)
 
 import String
 import Http
 import Json.Decode as Json exposing ((:=))
 import Task exposing (..)
-import Effects exposing (Effects)
+import Platform.Cmd as Cmd exposing (Cmd)
 
-import Types exposing (Action(..))
+import Types exposing (Msg(..))
 
 cityDecoder : Json.Decoder (Types.City)
 cityDecoder =
@@ -50,17 +50,10 @@ forecastUrl query =
     , "3b080a643fbe01608d05a365e2b49996"
     ]
 
-handleResult : Result a Types.ForecastRawData -> Action
-handleResult result =
-  case result of
-    Ok data ->
-      UpdateForecast data
-    Err error ->
-      FetchError (toString error)
-
-requestForecast : String -> Effects Action
+requestForecast : String -> Cmd Msg
 requestForecast query =
-  Http.get responseDecoder (forecastUrl query)
-    |> Task.toResult
-    |> Task.map handleResult
-    |> Effects.task
+  let
+    url = forecastUrl query
+  in
+    Http.get responseDecoder url
+      |> Task.perform FetchError UpdateForecast

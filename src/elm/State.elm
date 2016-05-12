@@ -1,8 +1,8 @@
-module State where
+module State exposing (..)
 
-import Effects exposing (Effects)
+import Platform.Cmd as Cmd exposing (Cmd)
 import WebApi exposing (requestForecast)
-import Types exposing (Action(..))
+import Types exposing (Msg(..))
 import Selectors exposing (selectFromRawForecastItem, groupByDay)
 
 
@@ -13,22 +13,22 @@ initCity =
   , name = "Unknown"
   }
 
-init : (Types.Model, Effects Action)
+init : (Types.Model, Cmd Msg)
 init =
   ( { city = initCity
     , timeTable = []
     , groupedByDay = []
     }
-  , Effects.none
+  , Cmd.none
   )
 
-update : Action -> Types.Model -> ( Types.Model, Effects Action )
+update : Msg -> Types.Model -> ( Types.Model, Cmd Msg )
 update action model =
   case action of
 
     RequestForecast q ->
       if q == "" then
-        (model, Effects.none)
+        (model, Cmd.none)
       else
         (model, requestForecast q)
 
@@ -42,12 +42,12 @@ update action model =
               timeTable = timeTable,
               groupedByDay = safeGroupByDay timeTable
           }
-          , Effects.none
+          , Cmd.none
         )
 
     FetchError error ->
       Debug.log (toString error)
-      (model, Effects.none)
+      (model, Cmd.none)
 
     NoOp ->
-      (model, Effects.none)
+      (model, Cmd.none)

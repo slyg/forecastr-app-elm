@@ -1,11 +1,7 @@
-module Util where
+module Util exposing (..)
 
-import Types exposing (Action(NoOp))
+import Types exposing (Msg(NoOp))
 import Date exposing (Date, Day(Mon, Tue, Wed, Thu, Fri, Sat, Sun), dayOfWeek)
-
-debounceProxy : Signal.Mailbox Action
-debounceProxy =
-  Signal.mailbox NoOp
 
 findWeekDay : Day -> String
 findWeekDay day =

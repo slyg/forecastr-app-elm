@@ -1,26 +1,22 @@
-module View where
+module View exposing (..)
 
 import String
 import Html exposing (Html, text, div, input, ul, li)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (style, type', placeholder, autofocus)
 import Html.Events exposing (on, targetValue)
-import Signal exposing (Address)
+import Json.Decode as Json
 
-import Types exposing (Action(..))
-import Util exposing (debounceProxy, findWeekDay)
+import Types exposing (Msg(..))
+import Util exposing (findWeekDay)
 
-onTextChange : (String -> Action) -> Html.Attribute
-onTextChange contentToValue =
-    on "input" targetValue (\str -> Signal.message debounceProxy.address (contentToValue str))
-
-lineStyle : Html.Attribute
+lineStyle : Html.Attribute a
 lineStyle =
   style
     [ ("padding", "10px 10px 0")
     ]
 
-forecastItemView : Types.ForecastItem -> Html
+forecastItemView : Types.ForecastItem -> Html a
 forecastItemView d =
   let
     { hour, description } = d
@@ -32,7 +28,7 @@ forecastItemView d =
   in
     li [] [ text (String.concat [formattedHour, " - ", description] ) ]
 
-forecastPerDayView : Types.ForecastsPerDay -> Html
+forecastPerDayView : Types.ForecastsPerDay -> Html a
 forecastPerDayView groupItem =
   let
     (day, forecasts) = groupItem
@@ -42,8 +38,8 @@ forecastPerDayView groupItem =
       , ul [] (List.map forecastItemView forecasts)
       ]
 
-view : Address Action -> Types.Model -> Html
-view address model =
+view : Types.Model -> Html Msg
+view model =
   div []
     [ div
         [ lineStyle ]
@@ -51,7 +47,7 @@ view address model =
           [ type' "text"
           , autofocus True
           , placeholder "Enter city name"
-          , onTextChange RequestForecast
+          , on "input" (Json.map RequestForecast targetValue)
           ]
           []
         ]

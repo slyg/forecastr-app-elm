@@ -47,7 +47,7 @@ view model =
           [ type' "text"
           , autofocus True
           , placeholder "Enter city name"
-          , on "input" (Json.map RequestForecast targetValue)
+          , on "input" (Json.map DebouncedRequestForecast targetValue)
           ]
           []
         ]

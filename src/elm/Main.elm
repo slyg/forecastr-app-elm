@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html.App as Html
 
-import State exposing (init, update)
+import State exposing (init, update, subscriptions)
 import View exposing (view)
 
 main =
@@ -10,5 +10,5 @@ main =
     { init = init
     , view = view
     , update = update
-    , subscriptions = \_ -> Sub.none
+    , subscriptions = subscriptions
     }

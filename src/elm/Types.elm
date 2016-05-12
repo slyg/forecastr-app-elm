@@ -52,6 +52,7 @@ type alias ForecastsPerDay =
 
 type Msg
   = NoOp
+  | DebouncedRequestForecast String
   | RequestForecast String
   | UpdateForecast ForecastRawData
   | FetchError Http.Error

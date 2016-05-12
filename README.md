@@ -10,14 +10,25 @@ Sandbox weather app. WIP.
 
 ### Install and build locally
 
-#### Prerequisites
+#### With Docker
+
+```
+$ docker-compose up
+```
+
+Build files are located in `/public`, you can serve them using `http-server`.
+
+
+#### Without Docker
+
+##### Prerequisites
 
 - nodejs
 - elm `v0.17`
 
 _I may add a Dockerfile later on…_
 
-#### Build
+##### Build
 
 ```bash
 $ elm package install && ./build

@@ -13,7 +13,7 @@ Sandbox weather app. WIP.
 #### Prerequisites
 
 - nodejs
-- elm
+- elm `v0.17`
 
 _I may add a Dockerfile later on…_
 

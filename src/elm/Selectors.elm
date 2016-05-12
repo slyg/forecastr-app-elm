@@ -1,9 +1,9 @@
-module Selectors where
+module Selectors exposing (..)
 
 import Date exposing (Date, dayOfWeek)
 import Result exposing (Result)
 
-import Types exposing (Action(..))
+import Types exposing (Msg(..))
 
 selectFromRawForecastItem : Types.ForecastItemRawData -> Maybe Types.ForecastItem
 selectFromRawForecastItem d =

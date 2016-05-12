@@ -1,28 +1,14 @@
-module Main where
+module Main exposing (..)
 
-import StartApp
-import Effects exposing (Effects, Never)
-import Task exposing (..)
-import Time exposing(every, millisecond)
-import Signal.Time exposing (settledAfter)
+import Html.App as Html
 
 import State exposing (init, update)
 import View exposing (view)
-import Util exposing (debounceProxy)
 
-app =
-  StartApp.start
+main =
+  Html.program
     { init = init
     , view = view
     , update = update
-    , inputs =
-      [ settledAfter (500 * Time.millisecond) debounceProxy.signal
-      ]
+    , subscriptions = \_ -> Sub.none
     }
-
-main =
-  app.html
-
-port tasks : Signal (Task.Task Never ())
-port tasks =
-  app.tasks

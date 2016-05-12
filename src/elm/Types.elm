@@ -1,5 +1,6 @@
-module Types where
+module Types exposing (..)
 
+import Http
 import Date exposing (Date, Day)
 
 -- shared types (Raw and Model)
@@ -47,10 +48,10 @@ type alias ForecastItem =
 type alias ForecastsPerDay =
   (Day, List ForecastItem)
 
--- Action types
+-- Msg types
 
-type Action
+type Msg
   = NoOp
   | RequestForecast String
   | UpdateForecast ForecastRawData
-  | FetchError String
+  | FetchError Http.Error

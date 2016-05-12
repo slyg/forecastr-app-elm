@@ -2,10 +2,9 @@ module View exposing (..)
 
 import String
 import Html exposing (Html, text, div, input, ul, li)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onInput)
 import Html.Attributes exposing (style, type', placeholder, autofocus)
-import Html.Events exposing (on, targetValue)
-import Json.Decode as Json
+import Html.Events exposing (on)
 
 import Types exposing (Msg(..))
 import Util exposing (findWeekDay)
@@ -47,7 +46,7 @@ view model =
           [ type' "text"
           , autofocus True
           , placeholder "Enter city name"
-          , on "input" (Json.map DebouncedRequestForecast targetValue)
+          , onInput DebouncedRequestForecast
           ]
           []
         ]

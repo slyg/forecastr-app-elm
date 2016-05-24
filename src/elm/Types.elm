@@ -3,56 +3,71 @@ module Types exposing (..)
 import Http
 import Date exposing (Date, Day)
 
+
 -- shared types (Raw and Model)
 
+
 type alias City =
-  { country: String
-  , id: Int
-  , name: String
-  }
+    { country : String
+    , id : Int
+    , name : String
+    }
+
+
 
 -- Raw data types (coming from API)
 
+
 type alias ForecastRawData =
-  { city : City
-  , list : List ForecastItemRawData
-  }
+    { city : City
+    , list : List ForecastItemRawData
+    }
+
 
 type alias ForecastItemRawData =
-  { dt: Int
-  , dt_txt: String
-  , weather: List WeatherItemRawData
-  }
+    { dt : Int
+    , dt_txt : String
+    , weather : List WeatherItemRawData
+    }
+
 
 type alias WeatherItemRawData =
-  { description: String
-  , icon: String
-  , id: Int
-  , main: String
-  }
+    { description : String
+    , icon : String
+    , id : Int
+    , main : String
+    }
+
+
 
 -- Model's data types
 
+
 type alias Model =
-  { city : City
-  , timeTable : List (Maybe ForecastItem)
-  , groupedByDay : List (ForecastsPerDay)
-  }
+    { city : City
+    , timeTable : List (Maybe ForecastItem)
+    , groupedByDay : List (ForecastsPerDay)
+    }
+
 
 type alias ForecastItem =
-  { day: Day
-  , hour: Int
-  , description : String
-  }
+    { day : Day
+    , hour : Int
+    , description : String
+    }
+
 
 type alias ForecastsPerDay =
-  (Day, List ForecastItem)
+    ( Day, List ForecastItem )
+
+
 
 -- Msg types
 
+
 type Msg
-  = NoOp
-  | DebouncedRequestForecast String
-  | RequestForecast String
-  | UpdateForecast ForecastRawData
-  | FetchError Http.Error
+    = NoOp
+    | DebouncedRequestForecast String
+    | RequestForecast String
+    | UpdateForecast ForecastRawData
+    | FetchError Http.Error

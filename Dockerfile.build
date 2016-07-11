@@ -1,8 +1,10 @@
 FROM node:6
 
-WORKDIR /var/www/web
-ADD . /var/www/web
+RUN npm install -g elm@0.17.1
 
-RUN npm install -g elm@0.17.0
+WORKDIR /web
+ADD . /web
+
+RUN elm package install --yes
 
 CMD ./scripts/build

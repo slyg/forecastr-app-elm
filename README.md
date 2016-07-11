@@ -19,7 +19,7 @@ $ docker build -t build-env -f ./Dockerfile.build .
 Trigger a build:
 
 ```bash
-$ docker run -v $(pwd)/public:/var/www/web/public build-env
+$ docker run -v $(pwd)/public:/web/public build-env
 ```
 
 ### Serve

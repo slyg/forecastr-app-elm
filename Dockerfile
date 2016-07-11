@@ -1,4 +1,4 @@
 FROM nginx
 
-COPY ./public /var/www/web
+COPY ./public /web
 COPY nginx/nginx.conf /etc/nginx/nginx.conf

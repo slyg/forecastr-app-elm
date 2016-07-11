@@ -45,15 +45,15 @@ type alias WeatherItemRawData =
 
 type alias Model =
     { city : City
-    , timeTable : List (Maybe ForecastItem)
     , groupedByDay : List (ForecastsPerDay)
+    , timeTable : List (Maybe ForecastItem)
     }
 
 
 type alias ForecastItem =
     { day : Day
-    , hour : Int
     , description : String
+    , hour : Int
     }
 
 

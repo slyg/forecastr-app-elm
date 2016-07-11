@@ -28,10 +28,10 @@ selectFromRawForecastItem d =
         case date of
             Just date ->
                 Just
-                    ({ day = dayOfWeek date
-                     , hour = Date.hour date
-                     , description = description
-                     }
+                    (Types.ForecastItem
+                        (dayOfWeek date)
+                        description
+                        (Date.hour date)
                     )
 
             Nothing ->

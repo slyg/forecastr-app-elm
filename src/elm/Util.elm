@@ -1,7 +1,6 @@
 module Util exposing (..)
 
-import Types exposing (Msg(NoOp))
-import Date exposing (Date, Day(Mon, Tue, Wed, Thu, Fri, Sat, Sun), dayOfWeek)
+import Date exposing (Date, Day(..))
 
 
 findWeekDay : Day -> String

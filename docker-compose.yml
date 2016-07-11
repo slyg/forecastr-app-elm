@@ -1,6 +1,4 @@
 app:
   build: .
-  dockerfile: Dockerfile
-  volumes:
-    - ./public:/var/www/web/public
-  command: sh ./build.sh
+  ports:
+    - 9000:80

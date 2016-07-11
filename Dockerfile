@@ -1,6 +1,4 @@
-FROM node:6
+FROM nginx
 
-WORKDIR /var/www/web
-ADD . /var/www/web
-
-RUN npm install -g elm@0.17.0
+COPY ./public /var/www/web
+COPY nginx/nginx.conf /etc/nginx/nginx.conf

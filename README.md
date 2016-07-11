@@ -6,31 +6,27 @@ Sandbox weather app. WIP.
 
 - this app is an `elm` playground
 - it aims at taking the redux version of [forecastr app](https://github.com/slyg/forecastr-app) and see how it can be re-implemented using elm
-
+- it actually doesn't follow <abbr title="The Elm Architecture">TEA</abbr> :-/
 
 ### Install and build locally
 
-#### With Docker
-
-```
-$ docker-compose up
-```
-
-Build files are located in `/public`, you can serve them using `http-server`.
-
-
-#### Without Docker
-
-##### Prerequisites
-
-- nodejs
-- elm `v0.17`
-
-_I may add a Dockerfile later on…_
-
-##### Build
+Create build environment:
 
 ```bash
-$ elm package install && ./build
+$ docker build -t build-env -f ./Dockerfile.build .
 ```
-Open `public/index.html`.
+
+Trigger a build:
+
+```bash
+$ docker run -v $(pwd)/public:/var/www/web/public build-env
+```
+
+### Serve
+
+```bash
+$ docker-compose up --build
+```
+Serves application at [http://localhost:9000](http://localhost:9000).
+
+Note: Built files are located in `/public`, you can also serve them using `http-server`.

@@ -10,20 +10,17 @@ import Selectors exposing (selectFromRawForecastItem, groupByDay)
 -- MODEL
 
 
-initCity : Types.City
-initCity =
-    { country = "UKN"
-    , id = 0
-    , name = "Unknown"
+initModel : Types.Model
+initModel =
+    { city = Nothing
+    , timeTable = []
+    , groupedByDay = []
     }
 
 
 init : ( Types.Model, Cmd Msg )
 init =
-    ( { city = initCity
-      , timeTable = []
-      , groupedByDay = []
-      }
+    ( initModel
     , Cmd.none
     )
 
@@ -35,12 +32,17 @@ init =
 port sendDebouncedMessage : String -> Cmd msg
 
 
+port abortDebouncedMessage : Maybe String -> Cmd msg
+
+
 update : Msg -> Types.Model -> ( Types.Model, Cmd Msg )
 update action model =
     case action of
         DebouncedRequestForecast q ->
             if q == "" then
-                ( model, Cmd.none )
+                ( initModel
+                , abortDebouncedMessage Nothing
+                )
             else
                 ( model, sendDebouncedMessage q )
 
@@ -56,7 +58,7 @@ update action model =
                     List.filterMap identity >> List.foldr groupByDay []
             in
                 ( { model
-                    | city = data.city
+                    | city = Just data.city
                     , timeTable = timeTable
                     , groupedByDay = safeGroupByDay timeTable
                   }

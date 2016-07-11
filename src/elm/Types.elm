@@ -44,7 +44,7 @@ type alias WeatherItemRawData =
 
 
 type alias Model =
-    { city : City
+    { city : Maybe City
     , groupedByDay : List (ForecastsPerDay)
     , timeTable : List (Maybe ForecastItem)
     }

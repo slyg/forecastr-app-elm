@@ -45,26 +45,28 @@ forecastPerDayView groupItem =
 
 view : Types.Model -> Html Msg
 view model =
-    div []
-        [ div [ lineStyle ]
-            [ input
-                [ type' "text"
-                , autofocus True
-                , placeholder "Enter city name"
-                , onInput DebouncedRequestForecast
-                ]
-                []
-            ]
-        , div [ lineStyle ]
-            [ text
-                (String.concat
-                    [ model.city.name
-                    , " ("
-                    , model.city.country
-                    , ")"
+    let
+        cityName =
+            case model.city of
+                Nothing ->
+                    "Enter a city name"
+
+                Just city ->
+                    String.concat [ city.name, " (", city.country, ")" ]
+    in
+        div []
+            [ div [ lineStyle ]
+                [ input
+                    [ type' "text"
+                    , autofocus True
+                    , placeholder "Enter city name"
+                    , onInput DebouncedRequestForecast
                     ]
-                )
+                    []
+                ]
+            , div [ lineStyle ]
+                [ text cityName
+                ]
+            , ul [ lineStyle ]
+                (List.map forecastPerDayView model.groupedByDay)
             ]
-        , ul [ lineStyle ]
-            (List.map forecastPerDayView model.groupedByDay)
-        ]
